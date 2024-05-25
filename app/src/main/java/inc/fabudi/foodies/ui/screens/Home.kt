@@ -20,17 +20,19 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
 import inc.fabudi.foodies.data.Product
 import inc.fabudi.foodies.network.ApiState
 import inc.fabudi.foodies.ui.components.BottomBar
 import inc.fabudi.foodies.ui.components.ProductsGrid
 import inc.fabudi.foodies.ui.components.TopBar
+import inc.fabudi.foodies.ui.navigation.Destination
 import inc.fabudi.foodies.viewmodel.MainViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Home(modifier: Modifier = Modifier, viewmodel: MainViewModel) {
+fun Home(viewmodel: MainViewModel, navController: NavController) {
     val productsState = viewmodel.sortedProductsState.collectAsState()
     val categoriesState = viewmodel.categoriesState.collectAsState()
     val tagsState = viewmodel.tagsState.collectAsState()
@@ -49,7 +51,7 @@ fun Home(modifier: Modifier = Modifier, viewmodel: MainViewModel) {
         viewmodel.fetchTags()
     }
 
-    Scaffold(modifier = modifier, topBar = {
+    Scaffold(modifier = Modifier, topBar = {
         TopBar(
             apiState = categoriesState.value,
             categoryOnClick = { id ->
@@ -63,7 +65,10 @@ fun Home(modifier: Modifier = Modifier, viewmodel: MainViewModel) {
             })
     }, bottomBar = {
         BottomBar(
-            cartState = cartState.value
+            cartState = cartState.value,
+            onClick = {
+                navController.navigate(Destination.Cart.route)
+            }
         )
     }) {
         when (productsState.value) {
