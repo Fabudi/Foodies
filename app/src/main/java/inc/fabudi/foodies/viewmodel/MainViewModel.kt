@@ -131,7 +131,13 @@ class MainViewModel @Inject constructor(private val apiService: ApiService) : Vi
 
         val filteredProducts = (productsState.value as ApiState.Success).data as List<Product>
         val filteredProductsByTags =
-            filteredProducts.filter { product -> prevSelectedTags.value.any { tag -> product.tag_ids.contains(tag.id) } }
+            filteredProducts.filter { product -> prevSelectedTags.value.all { tag -> product.tag_ids.contains(tag.id) } }
+
+        if (filteredProductsByTags.isEmpty()) {
+            sortedProductsState.value = ApiState.Error("Таких блюд нет :(\nПопробуйте изменить фильтры")
+            return
+        }
+
         sortedProductsState.value = ApiState.Success(filteredProductsByTags)
     }
 
