@@ -77,6 +77,16 @@ fun Home(modifier: Modifier = Modifier, viewmodel: MainViewModel) {
                     onClick = {}
                 )
             }
+            is ApiState.Error -> {
+                Box(
+                    modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = (productsState.value as ApiState.Error).message,
+                        style = MaterialTheme.typography.labelLarge
+                    )
+                }
+            }
             else -> {
                 Box(
                     modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
@@ -93,7 +103,8 @@ fun Home(modifier: Modifier = Modifier, viewmodel: MainViewModel) {
             onDismissRequest = {
                 openBottomSheet = false
                 viewmodel.resetFilter()
-                               }, sheetState = bottomSheetState,
+            },
+            sheetState = bottomSheetState,
             containerColor = MaterialTheme.colorScheme.background
         ) {
             FilterDialog(
