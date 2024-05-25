@@ -113,7 +113,7 @@ class MainViewModel @Inject constructor(private val apiService: ApiService) : Vi
         return newItemCounter
     }
 
-    fun selectCategory() {
+    private fun selectCategory() {
         if (selectedCategory.intValue == 0) sortedProductsState.value =
             ApiState.Success((productsState.value as ApiState.Success).data as List<Product>)
         else sortedProductsState.value =
