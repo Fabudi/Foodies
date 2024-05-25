@@ -1,6 +1,7 @@
 package inc.fabudi.foodies.ui.screens
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -105,7 +106,8 @@ fun Home(modifier: Modifier = Modifier, viewmodel: MainViewModel) {
                 viewmodel.resetFilter()
             },
             sheetState = bottomSheetState,
-            containerColor = MaterialTheme.colorScheme.background
+            containerColor = MaterialTheme.colorScheme.background,
+            windowInsets = WindowInsets(0,0,0,0)
         ) {
             FilterDialog(
                 tagsState = tagsState.value,

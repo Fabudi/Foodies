@@ -37,7 +37,7 @@ fun Counter(
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        horizontalArrangement = Arrangement.SpaceAround
     ) {
         FilledIconButton(
             onClick = minusOnClick,

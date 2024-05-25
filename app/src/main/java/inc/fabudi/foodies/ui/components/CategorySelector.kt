@@ -1,7 +1,6 @@
 package inc.fabudi.foodies.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -31,7 +30,6 @@ fun CategorySelector(
     LazyRow(
         state = lazyListState,
         horizontalArrangement = Arrangement.spacedBy(8.dp),
-        contentPadding = PaddingValues(start = 16.dp, end = 16.dp),
     ) {
         itemsIndexed(categories) { index, category ->
             CategoryChip(

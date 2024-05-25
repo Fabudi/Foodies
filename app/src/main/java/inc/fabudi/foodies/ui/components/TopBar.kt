@@ -7,6 +7,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.displayCutoutPadding
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Icon
@@ -17,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import inc.fabudi.foodies.R
 import inc.fabudi.foodies.data.Category
 import inc.fabudi.foodies.network.ApiState
@@ -35,6 +39,7 @@ fun TopBar(
         modifier = modifier
             .systemBarsPadding()
             .displayCutoutPadding()
+            .padding(top = 16.dp, start = 8.dp, end = 8.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -42,24 +47,22 @@ fun TopBar(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box {
-                IconButton(onClick = filterOnClick) {
-                    Box {
-                        Icon(
-                            painter = painterResource(id = R.drawable.filter),
-                            contentDescription = "Filter button"
-                        )
-                    }
+                IconButton(onClick = filterOnClick, modifier = Modifier.size(44.dp)) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.filter),
+                        contentDescription = "Filter button"
+                    )
                 }
                 if(filterCounter>0)
                     FilterCounter(value = filterCounter, modifier = Modifier.align(Alignment.TopEnd))
             }
-
             Image(
                 painterResource(id = R.drawable.logo),
                 contentDescription = "App logo image",
-                contentScale = ContentScale.Fit
+                contentScale = ContentScale.Fit,
+                modifier = Modifier.height(44.dp)
             )
-            IconButton(onClick = searchOnClick) {
+            IconButton(onClick = searchOnClick, modifier = Modifier.size(44.dp)) {
                 Icon(
                     painter = painterResource(id = R.drawable.search),
                     contentDescription = "Search button"
