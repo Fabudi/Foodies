@@ -3,8 +3,7 @@ package inc.fabudi.foodies
 import inc.fabudi.foodies.data.Product
 import io.github.cdimascio.dotenv.dotenv
 
-object Utils {
-
+object EnvVars {
     val environmentVariables = dotenv {
         directory = "/assets"
         filename = "env"
@@ -12,9 +11,12 @@ object Utils {
 
     val userAgent: String = environmentVariables["USER-AGENT"]
     val baseUrl: String = environmentVariables["API_ENDPOINT"]
+}
 
-    fun Int.toPrice(): String? {
-        if (this == 0) return null
+object Utils {
+
+    fun Int.toPrice(): String {
+        if (this == 0) return ""
         if ((this / 100f).toInt() < this / 100f) return "%.2f ₽".format(this / 100f)
         return "${(this / 100f).toInt()} ₽"
     }

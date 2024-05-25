@@ -4,7 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import inc.fabudi.foodies.Utils
+import inc.fabudi.foodies.EnvVars
 import inc.fabudi.foodies.network.ApiService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -26,7 +26,7 @@ object NetworkModule {
     @Singleton
     fun getRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(Utils.baseUrl)
+            .baseUrl(EnvVars.baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
@@ -43,7 +43,7 @@ object NetworkModule {
             .addNetworkInterceptor {
                 it.proceed(
                     it.request().newBuilder()
-                        .header("User-Agent", Utils.userAgent)
+                        .header("User-Agent", EnvVars.userAgent)
                         .build()
                 )
             }.addInterceptor(
