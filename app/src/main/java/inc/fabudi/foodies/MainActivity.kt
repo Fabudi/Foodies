@@ -4,24 +4,24 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
+import androidx.activity.viewModels
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import dagger.hilt.android.AndroidEntryPoint
 import inc.fabudi.foodies.ui.screens.Home
 import inc.fabudi.foodies.ui.theme.FoodiesTheme
+import inc.fabudi.foodies.viewmodel.MainViewModel
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    private val viewmodel: MainViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             FoodiesTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Home(modifier = Modifier.padding(innerPadding))
-                }
+                Home(modifier = Modifier, viewmodel = viewmodel)
             }
         }
     }
