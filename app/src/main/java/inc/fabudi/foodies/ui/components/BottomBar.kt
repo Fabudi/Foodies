@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import inc.fabudi.foodies.R
 import inc.fabudi.foodies.Utils.toPrice
 import inc.fabudi.foodies.data.CartState
+import inc.fabudi.foodies.data.Product
 
 @Composable
 fun BottomBar(
@@ -70,5 +71,42 @@ fun BottomBar(
 @Preview
 @Composable
 private fun BottomBarPreview() {
-    BottomBar()
+    val items = setOf(
+        Pair(
+            Product(
+                carbohydrates_per_100_grams = 40.41,
+                category_id = 3963,
+                description = "tation",
+                energy_per_100_grams = 42.43,
+                fats_per_100_grams = 44.45,
+                id = 3436,
+                image = "definiebas",
+                measure = 7552,
+                measure_unit = "nonumes",
+                name = "Ramona Collier",
+                price_current = 8172,
+                price_old = 1894,
+                proteins_per_100_grams = 46.47,
+                tag_ids = listOf()
+            ), 2
+        ), Pair(
+            Product(
+                carbohydrates_per_100_grams = 0.0,
+                category_id = 0,
+                description = "",
+                energy_per_100_grams = 0.0,
+                fats_per_100_grams = 0.0,
+                id = 0,
+                image = "",
+                measure = 0,
+                measure_unit = "",
+                name = "Lorem ipsum",
+                price_current = 10000,
+                price_old = 0,
+                proteins_per_100_grams = 0.0,
+                tag_ids = listOf()
+            ), 3
+        )
+    )
+    BottomBar(cartState = CartState.Filled(items))
 }
