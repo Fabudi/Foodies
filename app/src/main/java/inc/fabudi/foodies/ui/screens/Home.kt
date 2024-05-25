@@ -2,15 +2,21 @@ package inc.fabudi.foodies.ui.screens
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import inc.fabudi.foodies.data.Product
@@ -19,13 +25,22 @@ import inc.fabudi.foodies.ui.components.BottomBar
 import inc.fabudi.foodies.ui.components.ProductsGrid
 import inc.fabudi.foodies.ui.components.TopBar
 import inc.fabudi.foodies.viewmodel.MainViewModel
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Home(modifier: Modifier = Modifier, viewmodel: MainViewModel) {
     val productsState = viewmodel.sortedProductsState.collectAsState()
     val categoriesState = viewmodel.categoriesState.collectAsState()
     val tagsState = viewmodel.tagsState.collectAsState()
     val cartState = viewmodel.cartState.collectAsState()
+
+
+    val scope = rememberCoroutineScope()
+    var openBottomSheet by rememberSaveable { mutableStateOf(false) }
+    val bottomSheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true
+    )
 
     LaunchedEffect(Unit) {
         viewmodel.fetchProducts()
@@ -34,13 +49,15 @@ fun Home(modifier: Modifier = Modifier, viewmodel: MainViewModel) {
     }
 
     Scaffold(modifier = modifier, topBar = {
-        TopBar(modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight(),
+        TopBar(
             apiState = categoriesState.value,
             categoryOnClick = { id ->
                 viewmodel.selectedCategory.intValue = id
-                viewmodel.selectCategory()
+                viewmodel.filter()
+            },
+            filterOnClick = {
+                openBottomSheet = true
+                scope.launch { bottomSheetState.show() }
             })
     }, bottomBar = {
         BottomBar(
@@ -68,6 +85,27 @@ fun Home(modifier: Modifier = Modifier, viewmodel: MainViewModel) {
                     )
                 }
             }
+        }
+    }
+    if (openBottomSheet) {
+        ModalBottomSheet(
+            onDismissRequest = {
+                openBottomSheet = false
+                viewmodel.resetFilter()
+                               }, sheetState = bottomSheetState,
+            containerColor = MaterialTheme.colorScheme.background
+        ) {
+            FilterDialog(
+                tagsState = tagsState.value,
+                prevSelectedTags = viewmodel.prevSelectedTags,
+                selectedTags = viewmodel.selectedTags,
+                onCheckedChange = { tag -> viewmodel.onTagChecked(tag) },
+                onClick = {
+                    openBottomSheet = false
+                    scope.launch { bottomSheetState.hide() }
+                    viewmodel.filter()
+                }
+            )
         }
     }
 }

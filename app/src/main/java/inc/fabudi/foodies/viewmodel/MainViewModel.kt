@@ -1,11 +1,13 @@
 package inc.fabudi.foodies.viewmodel
 
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import inc.fabudi.foodies.data.CartState
 import inc.fabudi.foodies.data.Product
+import inc.fabudi.foodies.data.Tag
 import inc.fabudi.foodies.network.ApiService
 import inc.fabudi.foodies.network.ApiState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,6 +21,8 @@ class MainViewModel @Inject constructor(private val apiService: ApiService) : Vi
     val sortedProductsState: MutableStateFlow<ApiState> = MutableStateFlow(ApiState.Loading)
     val categoriesState: MutableStateFlow<ApiState> = MutableStateFlow(ApiState.Loading)
     val selectedCategory = mutableIntStateOf(0)
+    val selectedTags = mutableStateOf(listOf<Tag>())
+    val prevSelectedTags = mutableStateOf(listOf<Tag>())
     val cartState: MutableStateFlow<CartState> = MutableStateFlow(CartState.Empty)
 
     fun fetchTags() {
@@ -114,6 +118,33 @@ class MainViewModel @Inject constructor(private val apiService: ApiService) : Vi
             ApiState.Success((productsState.value as ApiState.Success).data as List<Product>)
         else sortedProductsState.value =
             ApiState.Success(((productsState.value as ApiState.Success).data as List<Product>).filter { it.category_id == selectedCategory.intValue })
+    }
+
+    fun filter() {
+        prevSelectedTags.value = selectedTags.value
+        selectCategory()
+        filterProducts()
+    }
+
+    private fun filterProducts() {
+        if (prevSelectedTags.value.isEmpty()) return
+
+        val filteredProducts = (productsState.value as ApiState.Success).data as List<Product>
+        val filteredProductsByTags =
+            filteredProducts.filter { product -> prevSelectedTags.value.any { tag -> product.tag_ids.contains(tag.id) } }
+        sortedProductsState.value = ApiState.Success(filteredProductsByTags)
+    }
+
+    fun onTagChecked(tag: Tag) {
+        selectedTags.value = if (selectedTags.value.contains(tag)) {
+            selectedTags.value.minus(tag)
+        } else {
+            selectedTags.value.plus(tag)
+        }
+    }
+
+    fun resetFilter() {
+        selectedTags.value = prevSelectedTags.value
     }
 
 }
