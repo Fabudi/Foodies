@@ -5,10 +5,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
-import inc.fabudi.foodies.ui.screens.Home
+import inc.fabudi.foodies.ui.navigation.NavigationGraph
 import inc.fabudi.foodies.ui.theme.FoodiesTheme
 import inc.fabudi.foodies.viewmodel.MainViewModel
 
@@ -21,7 +21,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             FoodiesTheme {
-                Home(modifier = Modifier, viewmodel = viewmodel)
+                val navController = rememberNavController()
+                NavigationGraph(navController = navController, viewmodel = viewmodel)
             }
         }
     }
