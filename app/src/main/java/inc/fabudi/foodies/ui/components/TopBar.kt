@@ -2,6 +2,7 @@ package inc.fabudi.foodies.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.displayCutoutPadding
@@ -19,11 +20,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import inc.fabudi.foodies.R
 import inc.fabudi.foodies.data.Category
 import inc.fabudi.foodies.network.ApiState
+import inc.fabudi.foodies.ui.theme.FoodiesTheme
 
 @Composable
 fun TopBar(
     modifier: Modifier = Modifier,
     apiState: ApiState = ApiState.Loading,
+    filterCounter: Int = 2,
     filterOnClick: () -> Unit = {},
     searchOnClick: () -> Unit = {},
     categoryOnClick: (Int) -> Unit = {}
@@ -38,12 +41,19 @@ fun TopBar(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = filterOnClick) {
-                Icon(
-                    painter = painterResource(id = R.drawable.filter),
-                    contentDescription = "Filter button"
-                )
+            Box {
+                IconButton(onClick = filterOnClick) {
+                    Box {
+                        Icon(
+                            painter = painterResource(id = R.drawable.filter),
+                            contentDescription = "Filter button"
+                        )
+                    }
+                }
+                if(filterCounter>0)
+                    FilterCounter(value = filterCounter, modifier = Modifier.align(Alignment.TopEnd))
             }
+
             Image(
                 painterResource(id = R.drawable.logo),
                 contentDescription = "App logo image",
@@ -68,9 +78,11 @@ fun TopBar(
 @Preview
 @Composable
 private fun TopBarPreview() {
-    TopBar(modifier = Modifier
-        .fillMaxWidth()
-        .wrapContentHeight(),
-        apiState = ApiState.Success(listOf(Category(id = 1569, name = "Elva Watkins")))
-    )
+    FoodiesTheme {
+        TopBar(modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight(),
+            apiState = ApiState.Success(listOf(Category(id = 1569, name = "Elva Watkins")))
+        )
+    }
 }

@@ -55,6 +55,7 @@ fun Home(modifier: Modifier = Modifier, viewmodel: MainViewModel) {
                 viewmodel.selectedCategory.intValue = id
                 viewmodel.filter()
             },
+            filterCounter = viewmodel.prevSelectedTags.value.size,
             filterOnClick = {
                 openBottomSheet = true
                 scope.launch { bottomSheetState.show() }
