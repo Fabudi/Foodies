@@ -59,7 +59,7 @@ fun BottomBar(
                     )
                 },
                 text = if (cartState is CartState.Filled)
-                        cartState.totalPrice.toPrice().toString()
+                    cartState.totalPrice.toPrice()
                        else "",
                 onClick = onClick
             )
