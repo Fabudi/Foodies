@@ -34,41 +34,36 @@ import inc.fabudi.foodies.viewmodel.MainViewModel
 @Composable
 fun Cart(viewmodel: MainViewModel, navController: NavController) {
     val cartState = viewmodel.cartState.collectAsState()
-    val items = (cartState.value as CartState.Filled).products.toList()
 
-    Scaffold(modifier = Modifier, topBar = {
-        TopAppBar(
-            modifier = Modifier.shadow(4.dp),
-            title = {
-                Text(
-                    text = "Корзина",
-                    style = MaterialTheme.typography.headlineLarge
-                )
-            },
-            navigationIcon = {
-                IconButton(onClick = { navController.popBackStack() }) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.back),
-                        contentDescription = "Back to Home screen button",
-                        tint = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.size(24.dp)
+    Scaffold(
+        modifier = Modifier,
+        topBar = {
+            TopAppBar(
+                modifier = Modifier.shadow(4.dp),
+                title = {
+                    Text(
+                        text = "Корзина", style = MaterialTheme.typography.headlineMedium
                     )
+                },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.back),
+                            contentDescription = "Back to Home screen button",
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.size(24.dp)
+                        )
+                    }
                 }
-            }
-        )
-    }, bottomBar = {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .shadow(4.dp)
-                .background(MaterialTheme.colorScheme.background),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            PrimaryButton(modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 16.dp, top = 12.dp, end = 16.dp, bottom = 12.dp),
-                text = "Заказать за 2 160 ₽",
-                onClick = { })
+            )
+        },
+        bottomBar = {
+            BottomBar(
+                text = "Заказать за ${viewmodel.getTotalPrice().toPrice()}",
+                visible = cartState.value is CartState.Filled,
+                icon = {},
+                onClick = { navController.navigate("Cart") }
+            )
         }
     }) {
         LazyColumn(modifier = Modifier.padding(it)) {

@@ -15,6 +15,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
+import inc.fabudi.foodies.Utils.toPrice
+import inc.fabudi.foodies.data.CartState
 import inc.fabudi.foodies.data.Product
 import inc.fabudi.foodies.network.ApiState
 import inc.fabudi.foodies.ui.components.BottomSheetWithFilterDialog
@@ -34,10 +36,6 @@ fun Home(viewmodel: MainViewModel, navController: NavController) {
 
 
     val scope = rememberCoroutineScope()
-    var openBottomSheet by rememberSaveable { mutableStateOf(false) }
-    val bottomSheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = true
-    )
     var bottomSheetIsOpened by rememberSaveable { mutableStateOf(false) }
     val bottomSheetState = rememberModalBottomSheetState()
 
@@ -47,26 +45,32 @@ fun Home(viewmodel: MainViewModel, navController: NavController) {
         viewmodel.fetchTags()
     }
 
-    Scaffold(modifier = Modifier, topBar = {
-        TopBar(
-            apiState = categoriesState.value,
-            categoryOnClick = { id ->
-                viewmodel.selectedCategory.intValue = id
-                viewmodel.filter()
-            },
-            filterCounter = viewmodel.prevSelectedTags.value.size,
-            filterOnClick = {
-                openBottomSheet = true
-                scope.launch { bottomSheetState.show() }
-            })
-    }, bottomBar = {
-        BottomBar(
-            cartState = cartState.value,
-            onClick = {
-                navController.navigate(Destination.Cart.route)
-            }
-        )
-    }) {
+    Scaffold(modifier = Modifier,
+        topBar = {
+            TopBar(
+                apiState = categoriesState.value,
+                categoryOnClick = { id ->
+                    viewmodel.selectedCategory.intValue = id
+                    viewmodel.filter()
+                },
+                filterCounter = viewmodel.prevSelectedTags.value.size,
+                filterOnClick = {
+                    bottomSheetIsOpened = true
+                    scope.launch { bottomSheetState.show() }
+                }
+            )
+        },
+        bottomBar = {
+            BottomBar(
+                text = viewmodel.getTotalPrice().toPrice(),
+                visible = cartState.value is CartState.Filled,
+                qty = if (cartState.value is CartState.Filled)
+                        (cartState.value as CartState.Filled).products.sumOf { it.second }
+                      else 0,
+                onClick = { navController.navigate("Cart") }
+            )
+        }
+    ) {
         when (productsState.value) {
             is ApiState.Success -> {
                 val products = (productsState.value as ApiState.Success).data as List<Product>
