@@ -36,7 +36,7 @@ fun Home(viewmodel: MainViewModel, navController: NavController) {
 
     val scope = rememberCoroutineScope()
     var bottomSheetIsOpened by rememberSaveable { mutableStateOf(false) }
-    val bottomSheetState = rememberModalBottomSheetState()
+    val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     LaunchedEffect(Unit) {
         viewmodel.fetchProducts()
@@ -95,7 +95,6 @@ fun Home(viewmodel: MainViewModel, navController: NavController) {
     BottomSheetWithFilterDialog(sheetState = bottomSheetState,
         isOpened = bottomSheetIsOpened,
         tagsState = tagsState.value,
-        prevSelectedTags = viewmodel.prevSelectedTags,
         selectedTags = viewmodel.selectedTags,
         onDismissRequest = {
             bottomSheetIsOpened = false

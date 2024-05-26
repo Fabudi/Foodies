@@ -19,7 +19,6 @@ fun BottomSheetWithFilterDialog(
     sheetState: SheetState,
     isOpened: Boolean,
     tagsState: ApiState,
-    prevSelectedTags: MutableState<List<Tag>>,
     selectedTags: MutableState<List<Tag>>,
     onDismissRequest: () -> Unit,
     onCheckedChange: (Tag) -> Unit,
@@ -27,6 +26,7 @@ fun BottomSheetWithFilterDialog(
 ) {
     if (isOpened) {
         ModalBottomSheet(
+            modifier = modifier,
             onDismissRequest = onDismissRequest,
             sheetState = sheetState,
             containerColor = MaterialTheme.colorScheme.background,
