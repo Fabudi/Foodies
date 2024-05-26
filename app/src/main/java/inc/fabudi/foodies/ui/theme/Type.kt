@@ -48,7 +48,7 @@ val Typography = Typography(
         color = MediumEmphasis,
         textAlign = TextAlign.Center
     ),
-    headlineMedium = TextStyle(
+    headlineSmall = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Medium,
         fontSize = 20.sp,
@@ -65,10 +65,18 @@ val Typography = Typography(
         color = Color.White,
         textAlign = TextAlign.Center
     ),
-    headlineLarge = TextStyle(
+    headlineMedium = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.SemiBold,
         fontSize = 18.sp,
+        letterSpacing = 0.sp,
+        color = HighEmphasis
+    ),
+    headlineLarge = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Normal,
+        fontSize = 34.sp,
+        lineHeight = 36.sp,
         letterSpacing = 0.sp,
         color = HighEmphasis
     ),
