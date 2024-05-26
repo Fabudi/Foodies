@@ -79,25 +79,20 @@ fun Home(viewmodel: MainViewModel, navController: NavController) {
                     onClick = {}
                 )
             }
-            is ApiState.Error -> {
-                Box(
-                    modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = (productsState.value as ApiState.Error).message,
-                        style = MaterialTheme.typography.labelLarge
-                    )
-                }
-            }
-            else -> {
-                Box(
-                    modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = "Replace with shimmers", style = MaterialTheme.typography.labelLarge
-                    )
-                }
-            }
+
+            is ApiState.Error -> ErrorMessageDisplay(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(it),
+                message = (productsState.value as ApiState.Error).message
+            )
+
+            else -> ErrorMessageDisplay(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(it),
+                message = "Replace with shimmers"
+            )
         }
     }
     BottomSheetWithFilterDialog(sheetState = bottomSheetState,
