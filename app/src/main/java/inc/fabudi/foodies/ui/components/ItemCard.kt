@@ -4,9 +4,12 @@ import android.graphics.BitmapFactory
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -41,6 +44,9 @@ fun ItemCard(
     weight: String = "500 g",
     price: String = "100 ₽",
     priceOld: String? = null,
+    isDiscounted: Boolean = false,
+    isSpicy: Boolean = false,
+    hasNoMeat: Boolean = false,
     items: Int = 0,
     minusOnClick: (id: Int) -> Unit = {},
     plusOnClick: (id: Int) -> Unit = {},
@@ -68,14 +74,29 @@ fun ItemCard(
                 contentDescription = "Product photo",
                 modifier = Modifier.size(170.dp)
             )
-            if (priceOld != null) Icon(
-                painter = painterResource(id = R.drawable.discount),
-                contentDescription = "Discount icon",
-                tint = Color.Unspecified,
-                modifier = Modifier
-                    .padding(8.dp)
-                    .size(24.dp)
-            )
+            Row(modifier = Modifier.padding(8.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                if (isDiscounted) Icon(
+                    painter = painterResource(id = R.drawable.discount),
+                    contentDescription = "Discount icon",
+                    tint = Color.Unspecified,
+                    modifier = Modifier
+                        .size(24.dp)
+                )
+                if (isSpicy) Icon(
+                    painter = painterResource(id = R.drawable.spicy),
+                    contentDescription = "Spicy icon",
+                    tint = Color.Unspecified,
+                    modifier = Modifier
+                        .size(24.dp)
+                )
+                if (hasNoMeat) Icon(
+                    painter = painterResource(id = R.drawable.no_meat),
+                    contentDescription = "No meat icon",
+                    tint = Color.Unspecified,
+                    modifier = Modifier
+                        .size(24.dp)
+                )
+            }
         }
         Column(modifier = Modifier.padding(12.dp)) {
             Text(
