@@ -10,17 +10,28 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import inc.fabudi.foodies.ui.theme.FoodiesTheme
 
 @Composable
-fun FilterCounter(modifier: Modifier = Modifier, value: Int = 0) {
+fun FilterCounter(
+    modifier: Modifier = Modifier,
+    value: Int = 0,
+    backgroundColor: Color = MaterialTheme.colorScheme.primary,
+    textColor: Color = MaterialTheme.colorScheme.onPrimary
+) {
     Box(modifier = modifier
         .size(17.dp)
         .clip(CircleShape)
-        .background(MaterialTheme.colorScheme.primary)){
-        Text(text = value.toString(), modifier = Modifier.align(Alignment.Center), style = MaterialTheme.typography.labelSmall)
+        .background(backgroundColor)){
+            Text(
+                text = value.toString(),
+                modifier = Modifier.align(Alignment.Center),
+                style = MaterialTheme.typography.labelSmall,
+                color = textColor
+            )
     }
 }
 
