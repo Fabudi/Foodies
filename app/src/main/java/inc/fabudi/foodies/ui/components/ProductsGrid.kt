@@ -15,6 +15,7 @@ import inc.fabudi.foodies.Utils.toPrice
 import inc.fabudi.foodies.Utils.withMeasureUnit
 import inc.fabudi.foodies.data.CartState
 import inc.fabudi.foodies.data.Product
+import inc.fabudi.foodies.ui.components.itemcard.ItemCard
 
 @Composable
 fun ProductsGrid(

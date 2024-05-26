@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import inc.fabudi.foodies.R
 import inc.fabudi.foodies.data.Category
 import inc.fabudi.foodies.network.ApiState
+import inc.fabudi.foodies.ui.components.category.CategorySelector
 import inc.fabudi.foodies.ui.theme.FoodiesTheme
 
 @Composable

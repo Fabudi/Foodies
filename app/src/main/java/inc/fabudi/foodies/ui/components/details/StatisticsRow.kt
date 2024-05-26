@@ -1,4 +1,4 @@
-package inc.fabudi.foodies.ui.components
+package inc.fabudi.foodies.ui.components.details
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

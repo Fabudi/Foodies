@@ -1,4 +1,4 @@
-package inc.fabudi.foodies.ui.components
+package inc.fabudi.foodies.ui.components.button
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

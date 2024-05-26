@@ -1,4 +1,4 @@
-package inc.fabudi.foodies.ui.components
+package inc.fabudi.foodies.ui.components.itemcard
 
 import android.graphics.BitmapFactory
 import androidx.compose.foundation.Image
@@ -31,6 +31,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import inc.fabudi.foodies.R
+import inc.fabudi.foodies.ui.components.CounterLight
+import inc.fabudi.foodies.ui.components.button.AddToCartButton
 import inc.fabudi.foodies.ui.theme.FoodiesTheme
 import inc.fabudi.foodies.ui.theme.GrayBg
 import inc.fabudi.foodies.ui.theme.HighEmphasis

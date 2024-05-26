@@ -1,4 +1,4 @@
-package inc.fabudi.foodies.ui.components
+package inc.fabudi.foodies.ui.components.details
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding

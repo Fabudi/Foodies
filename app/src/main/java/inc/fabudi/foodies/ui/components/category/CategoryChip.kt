@@ -1,4 +1,4 @@
-package inc.fabudi.foodies.ui.components
+package inc.fabudi.foodies.ui.components.category
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.RoundedCornerShape

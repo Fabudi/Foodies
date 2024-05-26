@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import inc.fabudi.foodies.data.Product
+import inc.fabudi.foodies.ui.components.itemcard.CartItemCard
 import inc.fabudi.foodies.ui.theme.Outline
 
 @Composable
