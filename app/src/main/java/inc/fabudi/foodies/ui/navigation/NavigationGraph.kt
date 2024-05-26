@@ -11,6 +11,7 @@ import androidx.navigation.navArgument
 import inc.fabudi.foodies.ui.screens.Cart
 import inc.fabudi.foodies.ui.screens.Details
 import inc.fabudi.foodies.ui.screens.Home
+import inc.fabudi.foodies.ui.screens.Search
 import inc.fabudi.foodies.viewmodel.MainViewModel
 
 @Composable
@@ -28,6 +29,9 @@ fun NavigationGraph(navController: NavHostController, viewmodel: MainViewModel) 
         }
         composable(route = Destination.Cart.route) {
             Cart(viewmodel, navController)
+        }
+        composable(route = Destination.Search.route) {
+            Search(viewmodel, navController)
         }
         composable(
             "Details/{productId}",
