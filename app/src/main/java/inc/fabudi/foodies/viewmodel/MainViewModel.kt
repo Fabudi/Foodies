@@ -151,4 +151,20 @@ class MainViewModel @Inject constructor(private val apiService: ApiService) : Vi
         selectedTags.value = prevSelectedTags.value
     }
 
+    fun getProduct(productId: Int): Product {
+        val products = ((productsState.value as ApiState.Success).data as List<Product>)
+        return products.find { it.id == productId } ?: products[0]
+    }
+
+    fun getProductQty(productId: Int): Int {
+        return if (cartState.value is CartState.Filled)
+                ((cartState.value as CartState.Filled).products.find { it.first.id == productId }?.second)
+            ?: 0 else 0
+    }
+
+    fun getTotalPrice(): Int {
+        return if (cartState.value is CartState.Filled)
+            ((cartState.value as CartState.Filled).products.sumOf { it.first.price_current * it.second })
+        else 0
+    }
 }
