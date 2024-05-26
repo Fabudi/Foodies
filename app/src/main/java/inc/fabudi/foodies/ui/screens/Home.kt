@@ -17,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import inc.fabudi.foodies.Utils.toPrice
 import inc.fabudi.foodies.data.CartState
-import inc.fabudi.foodies.data.Product
 import inc.fabudi.foodies.network.ApiState
 import inc.fabudi.foodies.ui.components.BottomSheetWithFilterDialog
 import inc.fabudi.foodies.ui.components.ProductsGrid
@@ -75,30 +74,21 @@ fun Home(viewmodel: MainViewModel, navController: NavController) {
         }
     ) {
         when (productsState.value) {
-            is ApiState.Success -> {
-                val products = (productsState.value as ApiState.Success).data as List<Product>
+            is ApiState.Success, ApiState.Loading -> {
                 ProductsGrid(
                     modifier = Modifier.padding(it),
-                    products = products,
+                    state = productsState.value,
                     cartState = cartState.value,
                     minusOnClick = { id -> viewmodel.removeItem(id) },
                     plusOnClick = { id -> viewmodel.addItem(id) },
                     onClick = { id -> navController.navigate("Details/$id") }
                 )
             }
-
             is ApiState.Error -> ErrorMessageDisplay(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(it),
                 message = (productsState.value as ApiState.Error).message
-            )
-
-            else -> ErrorMessageDisplay(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(it),
-                message = "Replace with shimmers"
             )
         }
     }

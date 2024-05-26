@@ -7,7 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
-import inc.fabudi.foodies.data.Product
 import inc.fabudi.foodies.network.ApiState
 import inc.fabudi.foodies.ui.components.ProductsGrid
 import inc.fabudi.foodies.ui.components.SearchBar
@@ -30,10 +29,9 @@ fun Search(viewmodel: MainViewModel, navController: NavController) {
     ) {
         when (searchResultProductsState.value) {
             is ApiState.Success -> {
-                val products = (searchResultProductsState.value as ApiState.Success).data as List<Product>
                 ProductsGrid(
                     modifier = Modifier.padding(it),
-                    products = products,
+                    state = searchResultProductsState.value,
                     cartState = cartState.value,
                     minusOnClick = { id -> viewmodel.removeItem(id) },
                     plusOnClick = { id -> viewmodel.addItem(id) },

@@ -78,12 +78,11 @@ fun TopBar(
                     )
                 }
             }
-            if (apiState is ApiState.Success) {
-                CategorySelector(
-                    categories = apiState.data as List<Category>,
-                    onClick = categoryOnClick
-                )
-            }
+            CategorySelector(
+                state = apiState,
+                onClick = categoryOnClick
+            )
+
         }
     }
 }

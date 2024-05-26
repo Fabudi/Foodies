@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -33,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import inc.fabudi.foodies.R
 import inc.fabudi.foodies.ui.components.CounterLight
 import inc.fabudi.foodies.ui.components.button.AddToCartButton
+import inc.fabudi.foodies.ui.components.shimmerBrush
 import inc.fabudi.foodies.ui.theme.FoodiesTheme
 import inc.fabudi.foodies.ui.theme.GrayBg
 import inc.fabudi.foodies.ui.theme.HighEmphasis
@@ -114,12 +116,16 @@ fun ItemCard(
                 color = MediumEmphasis
             )
             if (items>0) CounterLight(
-                modifier = Modifier.fillMaxWidth().height(40.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(40.dp),
                 items = items,
                 minusOnClick = { minusOnClick(id) },
                 plusOnClick = { plusOnClick(id) }
             )
-            else AddToCartButton(modifier = Modifier.fillMaxWidth().height(40.dp),
+            else AddToCartButton(modifier = Modifier
+                .fillMaxWidth()
+                .height(40.dp),
                 price = price,
                 priceOld = priceOld,
                 onClick = { plusOnClick(id) }
@@ -128,12 +134,32 @@ fun ItemCard(
     }
 }
 
+@Composable
+fun ItemCardShimmer(
+    modifier: Modifier = Modifier
+) {
+    Spacer(modifier = modifier
+        .height(290.dp)
+        .width(170.dp)
+        .clip(RoundedCornerShape(8.dp))
+        .background(shimmerBrush()))
+}
+
 @Preview
 @Composable
 private fun ItemCardPreview() {
     FoodiesTheme {
         Box(modifier = Modifier.background(Color.White)) {
             ItemCard()
+        }
+    }
+}
+@Preview
+@Composable
+private fun ItemCardShimmerPreview() {
+    FoodiesTheme {
+        Box(modifier = Modifier.background(Color.White)) {
+            ItemCardShimmer()
         }
     }
 }

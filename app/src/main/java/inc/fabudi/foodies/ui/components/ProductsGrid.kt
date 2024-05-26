@@ -15,12 +15,14 @@ import inc.fabudi.foodies.Utils.toPrice
 import inc.fabudi.foodies.Utils.withMeasureUnit
 import inc.fabudi.foodies.data.CartState
 import inc.fabudi.foodies.data.Product
+import inc.fabudi.foodies.network.ApiState
 import inc.fabudi.foodies.ui.components.itemcard.ItemCard
+import inc.fabudi.foodies.ui.components.itemcard.ItemCardShimmer
 
 @Composable
 fun ProductsGrid(
     modifier: Modifier = Modifier,
-    products: List<Product> = emptyList(),
+    state: ApiState = ApiState.Loading,
     cartState: CartState = CartState.Empty,
     minusOnClick: (id: Int) -> Unit = {},
     plusOnClick: (id: Int) -> Unit = {},
@@ -33,24 +35,36 @@ fun ProductsGrid(
         contentPadding = PaddingValues(start = 16.dp, top = 16.dp, end = 16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(products, key = { it.id }) { product ->
-            val productsInCart =
-                if (cartState is CartState.Filled) cartState.products.findQty(product.id) else 0
-            ItemCard(
-                modifier = Modifier.animateItem(),
-                title = product.name,
-                weight = product.measure.withMeasureUnit(product.measure_unit),
-                price = product.price_current.toPrice(),
-                priceOld = product.price_old.toPrice(),
-                isDiscounted = product.price_old != 0,
-                isSpicy = product.tag_ids.contains(4), // "Острое" has id 4
-                hasNoMeat = product.tag_ids.contains(2), // "Вегетарианское блюдо" has id 2
-                minusOnClick = { minusOnClick(product.id) },
-                plusOnClick = { plusOnClick(product.id) },
-                items = productsInCart,
-                onClick = { onClick(product.id) }
-            )
+        when(state)  {
+            is ApiState.Loading ->{
+                items(10){
+                    ItemCardShimmer()
+                }
+            }
+            is ApiState.Error -> {}
+            is ApiState.Success -> {
+                val products = state.data as List<Product>
+                items(products, key = { it.id }) { product ->
+                    val productsInCart =
+                        if (cartState is CartState.Filled) cartState.products.findQty(product.id) else 0
+                    ItemCard(
+                        modifier = Modifier.animateItem(),
+                        title = product.name,
+                        weight = product.measure.withMeasureUnit(product.measure_unit),
+                        price = product.price_current.toPrice(),
+                        priceOld = product.price_old.toPrice(),
+                        isDiscounted = product.price_old != 0,
+                        isSpicy = product.tag_ids.contains(4), // "Острое" has id 4
+                        hasNoMeat = product.tag_ids.contains(2), // "Вегетарианское блюдо" has id 2
+                        minusOnClick = { minusOnClick(product.id) },
+                        plusOnClick = { plusOnClick(product.id) },
+                        items = productsInCart,
+                        onClick = { onClick(product.id) }
+                    )
+                }
+            }
         }
+
     }
 }
 
