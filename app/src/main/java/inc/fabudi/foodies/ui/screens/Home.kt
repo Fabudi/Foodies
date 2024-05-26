@@ -80,7 +80,7 @@ fun Home(viewmodel: MainViewModel, navController: NavController) {
                     cartState = cartState.value,
                     minusOnClick = { id -> viewmodel.removeItem(id) },
                     plusOnClick = { id -> viewmodel.addItem(id) },
-                    onClick = {}
+                    onClick = { id -> navController.navigate("Details/$id") }
                 )
             }
 
