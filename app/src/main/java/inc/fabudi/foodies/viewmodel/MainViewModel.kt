@@ -1,7 +1,9 @@
 package inc.fabudi.foodies.viewmodel
 
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,11 +21,14 @@ class MainViewModel @Inject constructor(private val apiService: ApiService) : Vi
     val tagsState: MutableStateFlow<ApiState> = MutableStateFlow(ApiState.Loading)
     private val productsState: MutableStateFlow<ApiState> = MutableStateFlow(ApiState.Loading)
     val sortedProductsState: MutableStateFlow<ApiState> = MutableStateFlow(ApiState.Loading)
+    val searchResultProductsState: MutableStateFlow<ApiState> = MutableStateFlow(ApiState.Loading)
     val categoriesState: MutableStateFlow<ApiState> = MutableStateFlow(ApiState.Loading)
     val selectedCategory = mutableIntStateOf(0)
     val selectedTags = mutableStateOf(listOf<Tag>())
     val prevSelectedTags = mutableStateOf(listOf<Tag>())
     val cartState: MutableStateFlow<CartState> = MutableStateFlow(CartState.Empty)
+
+    var searchQuery by mutableStateOf("")
 
     fun fetchTags() {
         viewModelScope.launch {
@@ -166,5 +171,19 @@ class MainViewModel @Inject constructor(private val apiService: ApiService) : Vi
         return if (cartState.value is CartState.Filled)
             ((cartState.value as CartState.Filled).products.sumOf { it.first.price_current * it.second })
         else 0
+    }
+
+    fun searchQuery(query: String) {
+        searchQuery = query
+        val products = ((productsState.value as ApiState.Success).data as List<Product>)
+        if (query.isEmpty()) {
+            searchResultProductsState.value =
+                ApiState.Error("Введите название блюда, которое ищете")
+            return
+        }
+        searchResultProductsState.value =
+            ApiState.Success(products.filter { it.name.contains(query, ignoreCase = true) })
+        if ((searchResultProductsState.value as ApiState.Success).data.isEmpty()) searchResultProductsState.value =
+            ApiState.Error("Ничего не нашлось :(")
     }
 }
