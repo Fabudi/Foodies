@@ -23,10 +23,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import inc.fabudi.foodies.data.CartState
-import inc.fabudi.foodies.ui.components.details.Description
-import inc.fabudi.foodies.ui.components.details.Statistics
 import inc.fabudi.foodies.ui.components.bottombar.DetailsBottomBar
 import inc.fabudi.foodies.ui.components.button.CircleIconButton
+import inc.fabudi.foodies.ui.components.details.Description
+import inc.fabudi.foodies.ui.components.details.Statistics
 import inc.fabudi.foodies.viewmodel.MainViewModel
 
 @Composable
@@ -97,7 +97,7 @@ fun Details(viewmodel: MainViewModel, navController: NavController, productId: I
         }
         CircleIconButton(
             modifier = Modifier.systemBarsPadding(),
-            onClick = { navController.popBackStack() })
+            onClick = { if(!navController.popBackStack()) navController.navigate("Home") })
     }
 }
 

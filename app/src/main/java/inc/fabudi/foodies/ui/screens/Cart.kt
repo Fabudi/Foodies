@@ -40,7 +40,11 @@ fun Cart(viewmodel: MainViewModel, navController: NavController) {
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
+                    IconButton(
+                        onClick = {
+                            if(!navController.popBackStack()) navController.navigate("Home")
+                        }
+                    ) {
                         Icon(
                             painter = painterResource(id = R.drawable.back),
                             contentDescription = "Back to Home screen button",

@@ -22,7 +22,7 @@ fun Search(viewmodel: MainViewModel, navController: NavController) {
             SearchBar(
                 modifier = Modifier,
                 searchQuery = viewmodel.searchQuery,
-                onClick = { navController.popBackStack()},
+                onClick = { if(!navController.popBackStack()) navController.navigate("Home") },
                 onValueChange = { viewmodel.searchQuery(it) }
             )
         }
