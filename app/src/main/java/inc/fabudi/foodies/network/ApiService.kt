@@ -19,6 +19,6 @@ interface ApiService {
 
 interface ApiState {
     data object Loading : ApiState
-    data class Success(val data: Any) : ApiState
+    data class Success(val data: List<Any>) : ApiState
     data class Error(val message: String): ApiState
 }

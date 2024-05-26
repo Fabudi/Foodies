@@ -26,8 +26,8 @@ import androidx.navigation.NavController
 import inc.fabudi.foodies.R
 import inc.fabudi.foodies.data.CartState
 import inc.fabudi.foodies.ui.components.CartItemCard
-import inc.fabudi.foodies.ui.components.PrimaryButton
 import inc.fabudi.foodies.ui.theme.Outline
+import inc.fabudi.foodies.ui.components.bottombar.BottomBar
 import inc.fabudi.foodies.viewmodel.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)

@@ -1,4 +1,4 @@
-package inc.fabudi.foodies.ui.components
+package inc.fabudi.foodies.ui.components.bottombar
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
@@ -23,19 +23,28 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import inc.fabudi.foodies.R
-import inc.fabudi.foodies.Utils.toPrice
-import inc.fabudi.foodies.data.CartState
 import inc.fabudi.foodies.data.Product
+import inc.fabudi.foodies.ui.components.button.PrimaryButton
 
 @Composable
 fun BottomBar(
     modifier: Modifier = Modifier,
-    cartState: CartState = CartState.Empty,
+    text: String = "",
+    icon: @Composable () -> Unit = {
+        Icon(
+            modifier = Modifier.size(20.dp),
+            painter = painterResource(id = R.drawable.cart),
+            contentDescription = "Go to cart button",
+            tint = MaterialTheme.colorScheme.onPrimary
+        )
+    },
+    qty: Int = 0,
+    visible: Boolean = false,
     onClick: () -> Unit = {}
 ) {
     val slidePixels = with(LocalDensity.current) { -40.dp.roundToPx() }
     AnimatedVisibility(
-        visible = cartState is CartState.Filled,
+        visible = visible,
         enter = slideInVertically { slidePixels }
                 + expandVertically(expandFrom = Alignment.Top)
                 + fadeIn(initialAlpha = 0.3f),
@@ -50,18 +59,10 @@ fun BottomBar(
             PrimaryButton(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 16.dp, top = 12.dp, end = 16.dp, bottom = 12.dp),
-                icon = {
-                    Icon(
-                        modifier = Modifier.size(20.dp),
-                        painter = painterResource(id = R.drawable.cart),
-                        contentDescription = "",
-                        tint = MaterialTheme.colorScheme.onPrimary
-                    )
-                },
-                text = if (cartState is CartState.Filled)
-                    cartState.totalPrice.toPrice()
-                       else "",
+                    .padding(start = 16.dp, top = 12.dp, end = 16.dp, bottom = 36.dp),
+                icon = icon,
+                text = text,
+                qty = qty,
                 onClick = onClick
             )
         }
@@ -108,5 +109,5 @@ private fun BottomBarPreview() {
             ), 3
         )
     )
-    BottomBar(cartState = CartState.Filled(items))
+    BottomBar()
 }

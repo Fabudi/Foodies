@@ -11,8 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import inc.fabudi.foodies.Utils.findQty
-import inc.fabudi.foodies.Utils.toMeasureUnit
 import inc.fabudi.foodies.Utils.toPrice
+import inc.fabudi.foodies.Utils.withMeasureUnit
 import inc.fabudi.foodies.data.CartState
 import inc.fabudi.foodies.data.Product
 
@@ -21,31 +21,33 @@ fun ProductsGrid(
     modifier: Modifier = Modifier,
     products: List<Product> = emptyList(),
     cartState: CartState = CartState.Empty,
-    minusOnClick: (id: Int) -> Int = {0},
-    plusOnClick: (id: Int) -> Int = {0},
-    onClick: () -> Unit = {},
+    minusOnClick: (id: Int) -> Unit = {},
+    plusOnClick: (id: Int) -> Unit = {},
+    onClick: (id: Int) -> Unit = {},
 ) {
     LazyVerticalGrid(
         modifier = modifier,
         columns = GridCells.Adaptive(170.dp),
-        horizontalArrangement = Arrangement.spacedBy(
-            8.dp, Alignment.CenterHorizontally
-        ),
+        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
         contentPadding = PaddingValues(start = 16.dp, end = 16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(products, key = { it.id }) { product ->
+            val productsInCart =
+                if (cartState is CartState.Filled) cartState.products.findQty(product.id) else 0
             ItemCard(
                 modifier = Modifier.animateItem(),
                 title = product.name,
-                weight = product.measure.toMeasureUnit(product.measure_unit),
-                price = product.price_current.toPrice()!!,
+                weight = product.measure.withMeasureUnit(product.measure_unit),
+                price = product.price_current.toPrice(),
                 priceOld = product.price_old.toPrice(),
+                isDiscounted = product.price_old != 0,
+                isSpicy = product.tag_ids.contains(4), // "Острое" has id 4
+                hasNoMeat = product.tag_ids.contains(2), // "Вегетарианское блюдо" has id 2
                 minusOnClick = { minusOnClick(product.id) },
                 plusOnClick = { plusOnClick(product.id) },
-                items = if (cartState is CartState.Filled) cartState.products.findQty(product.id)
-                        else 0,
-                onClick = onClick
+                items = productsInCart,
+                onClick = { onClick(product.id) }
             )
         }
     }

@@ -91,12 +91,12 @@ fun ItemCard(
                 color = MediumEmphasis
             )
             if (items>0) CounterLight(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().height(40.dp),
                 items = items,
                 minusOnClick = { minusOnClick(id) },
                 plusOnClick = { plusOnClick(id) }
             )
-            else AddToCartButton(modifier = Modifier.fillMaxWidth(),
+            else AddToCartButton(modifier = Modifier.fillMaxWidth().height(40.dp),
                 price = price,
                 priceOld = priceOld,
                 onClick = { plusOnClick(id) }

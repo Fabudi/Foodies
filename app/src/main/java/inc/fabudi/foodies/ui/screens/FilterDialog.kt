@@ -18,7 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import inc.fabudi.foodies.data.Tag
 import inc.fabudi.foodies.network.ApiState
-import inc.fabudi.foodies.ui.components.PrimaryButton
+import inc.fabudi.foodies.ui.components.button.PrimaryButton
 import inc.fabudi.foodies.ui.theme.FoodiesTheme
 import inc.fabudi.foodies.ui.theme.Outline
 
@@ -26,7 +26,6 @@ import inc.fabudi.foodies.ui.theme.Outline
 fun FilterDialog(
     modifier: Modifier = Modifier,
     tagsState: ApiState = ApiState.Loading,
-    prevSelectedTags: MutableState<List<Tag>> = mutableStateOf(emptyList()),
     selectedTags: MutableState<List<Tag>> = mutableStateOf(emptyList()),
     onCheckedChange: (tag: Tag) -> Unit = {},
     onClick: () -> Unit = {}
@@ -38,7 +37,7 @@ fun FilterDialog(
     ) {
         Text(
             text = "Подобрать блюда",
-            style = MaterialTheme.typography.headlineMedium,
+            style = MaterialTheme.typography.headlineSmall,
             modifier = Modifier.padding(bottom = 16.dp)
         )
         if (tagsState is ApiState.Success) {
