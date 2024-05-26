@@ -4,9 +4,12 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -49,7 +52,8 @@ fun DetailsBottomBar(
                     .then(
                         if (isProductInCart)
                             Modifier
-                                .padding(start = 16.dp, top = 12.dp, end = 16.dp, bottom = 36.dp)
+                                .padding(start = 16.dp, top = 12.dp, end = 16.dp, bottom = 12.dp)
+                                .windowInsetsPadding(WindowInsets.navigationBars)
                                 .weight(1f)
                         else Modifier.size(0.dp)
                     ),
@@ -62,7 +66,8 @@ fun DetailsBottomBar(
                     .fillMaxWidth()
                     .animateContentSize()
                     .weight(1f)
-                    .padding(start = 16.dp, top = 12.dp, end = 16.dp, bottom = 36.dp),
+                    .padding(start = 16.dp, top = 12.dp, end = 16.dp, bottom = 12.dp)
+                    .windowInsetsPadding(WindowInsets.navigationBars),
                 icon = {
                     if (isProductInCart) Icon(
                         modifier = Modifier.size(20.dp),

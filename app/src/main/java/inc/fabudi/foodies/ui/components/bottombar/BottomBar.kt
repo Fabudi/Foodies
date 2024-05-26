@@ -9,9 +9,12 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -39,7 +42,7 @@ fun BottomBar(
         )
     },
     qty: Int = 0,
-    visible: Boolean = false,
+    visible: Boolean = true,
     onClick: () -> Unit = {}
 ) {
     val slidePixels = with(LocalDensity.current) { -40.dp.roundToPx() }
@@ -59,7 +62,8 @@ fun BottomBar(
             PrimaryButton(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 16.dp, top = 12.dp, end = 16.dp, bottom = 36.dp),
+                    .padding(start = 16.dp, top = 12.dp, end = 16.dp, bottom = 12.dp)
+                    .windowInsetsPadding(WindowInsets.navigationBars),
                 icon = icon,
                 text = text,
                 qty = qty,
