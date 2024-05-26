@@ -4,9 +4,12 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import inc.fabudi.foodies.ui.screens.Cart
+import inc.fabudi.foodies.ui.screens.Details
 import inc.fabudi.foodies.ui.screens.Home
 import inc.fabudi.foodies.viewmodel.MainViewModel
 
@@ -25,6 +28,12 @@ fun NavigationGraph(navController: NavHostController, viewmodel: MainViewModel) 
         }
         composable(route = Destination.Cart.route) {
             Cart(viewmodel, navController)
+        }
+        composable(
+            "Details/{productId}",
+            arguments = listOf(navArgument("productId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            Details(viewmodel, navController, backStackEntry.arguments?.getInt("productId") ?: 0)
         }
     }
 }
