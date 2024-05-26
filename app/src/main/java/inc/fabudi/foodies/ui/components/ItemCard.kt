@@ -50,7 +50,7 @@ fun ItemCard(
     val image by remember{
         mutableStateOf(
             BitmapFactory.decodeStream(
-                context.assets.open("product_photo.png")
+                context.assets.open("product_photo.webp")
             )
             .asImageBitmap()
         )
