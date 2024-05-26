@@ -57,6 +57,9 @@ fun Home(viewmodel: MainViewModel, navController: NavController) {
                 filterOnClick = {
                     bottomSheetIsOpened = true
                     scope.launch { bottomSheetState.show() }
+                },
+                searchOnClick = {
+                    navController.navigate("Search")
                 }
             )
         },
